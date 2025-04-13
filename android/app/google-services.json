@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "454280754132",
+    "project_id": "agriinsight-ai",
+    "storage_bucket": "agriinsight-ai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454280754132:android:e635536e0de867b1321c41",
+        "android_client_info": {
+          "package_name": "com.example.agriinsight_ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtXRy13IwmgtIyn0lSL1BuLO7s2Fckdcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
