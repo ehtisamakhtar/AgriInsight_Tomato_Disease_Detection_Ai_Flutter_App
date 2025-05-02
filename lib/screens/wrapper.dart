@@ -3,7 +3,7 @@ import 'package:agriinsight_ai/screens/verifyemail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'home_screen.dart';
+import 'mainnavigationscreen.dart';
 import 'signin.dart';
 
 class Wrapper extends StatefulWidget {
@@ -19,7 +19,7 @@ class _WrapperState extends State<Wrapper> {
     return Scaffold(
       body: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return HomeScreen();
+          return MainNavigationScreen();
         } else {
           return Signin();
         }

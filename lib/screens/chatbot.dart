@@ -1,7 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
-
-import '../constants/api_constants.dart';
+import 'package:http/http.dart' as http;
 
 class ChatBotAgriAi extends StatefulWidget {
   const ChatBotAgriAi({super.key});
@@ -16,18 +15,21 @@ class _ChatBotAgriAiState extends State<ChatBotAgriAi> {
   final List<ChatMessage> _messages = [];
   bool _isTyping = false;
 
+  static const String apiKey = 'AIzaSyCV00lrUZh-GirEe6WUS_aNZpg6zTOMbmQ';
+  final String endpoint =
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey';
 
-  final model = GenerativeModel(
-      model: ApiConstants.modelName,
-      apiKey: ApiConstants.apiKey
-  );
 
   void _scrollToBottom() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   Future<void> _sendMessage() async {
@@ -37,10 +39,7 @@ class _ChatBotAgriAiState extends State<ChatBotAgriAi> {
     _messageController.clear();
 
     setState(() {
-      _messages.add(ChatMessage(
-        text: message,
-        isUser: true,
-      ));
+      _messages.add(ChatMessage(text: message, isUser: true));
       _isTyping = true;
     });
 
@@ -48,30 +47,53 @@ class _ChatBotAgriAiState extends State<ChatBotAgriAi> {
 
     try {
       final prompt = '''
-Plant expert: Give brief, practical answers on plants, crops, and wheat diseases. 
-For non-plant queries, reply: 'I only assist with plant-related topics.
-' Use simple language, match the user's language, and for diseases, 
-provide symptoms, causes, and solutions.
+You are an expert in agriculture and crop disease detection,especially tomato diseases.
+Provide short max 10-15 lines,concise, practical answers about plants, .
+If the user asks anything unrelated, reply:"I only assist with plant-related topics."
 
-User question: $message
+User: $message
 ''';
 
-      final content = [Content.text(prompt)];
-      final response = await model.generateContent(content);
-
-      setState(() {
-        _messages.add(ChatMessage(
-          text: response.text ?? 'Sorry, I could not generate a response.',
-          isUser: false,
-        ));
-        _isTyping = false;
+      final body = jsonEncode({
+        "contents": [
+          {
+            "parts": [
+              {"text": prompt}
+            ]
+          }
+        ]
       });
+
+      final response = await http.post(
+        Uri.parse(endpoint),
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final botText = data['candidates'][0]['content']['parts'][0]['text'];
+        setState(() {
+          _messages.add(ChatMessage(text: botText, isUser: false));
+          _isTyping = false;
+        });
+      } else {
+        print('Gemini error: ${response.body}');
+        setState(() {
+          _messages.add(ChatMessage(
+            text: 'Error: ${response.statusCode}',
+            isUser: false,
+          ));
+          _isTyping = false;
+        });
+      }
 
       _scrollToBottom();
     } catch (e) {
+      print('Exception: $e');
       setState(() {
         _messages.add(ChatMessage(
-          text: 'Sorry, there was an error generating the response.',
+          text: 'Gemini API Error: $e',
           isUser: false,
         ));
         _isTyping = false;
@@ -83,8 +105,8 @@ User question: $message
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Crop Care Assistant', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),),
-        backgroundColor: Color(0xFF2E7D32),
+        title: const Text('Crop Care Assistant', style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color(0xFF2E7D32),
         centerTitle: true,
       ),
       body: Column(
@@ -92,33 +114,29 @@ User question: $message
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                return _messages[index];
-              },
+              itemBuilder: (context, index) => _messages[index],
             ),
           ),
           if (_isTyping)
             const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8),
               child: CircularProgressIndicator(),
             ),
           Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(color: Colors.grey[200]),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _messageController,
                     decoration: const InputDecoration(
-                      hintText: 'Ask about plants and crops...',
+                      hintText: 'Ask about tomato or plant issues...',
                       border: InputBorder.none,
                     ),
-                    onSubmitted: (value) => _sendMessage(),
+                    onSubmitted: (_) => _sendMessage(),
                   ),
                 ),
                 IconButton(
@@ -138,47 +156,36 @@ class ChatMessage extends StatelessWidget {
   final String text;
   final bool isUser;
 
-  const ChatMessage({
-    super.key,
-    required this.text,
-    required this.isUser,
-  });
+  const ChatMessage({super.key, required this.text, required this.isUser});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-      child: Row(
-        mainAxisAlignment:
-        isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: [
-          if (!isUser)
-            const CircleAvatar(
-              backgroundColor: Colors.green,
-              child: Icon(Icons.eco, color: Colors.white),
-            ),
-          const SizedBox(width: 8),
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: isUser ? Colors.green[100] : Colors.grey[300],
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(
-                text,
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
+    return Row(
+      mainAxisAlignment:
+      isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      children: [
+        if (!isUser)
+          const Padding(
+            padding: EdgeInsets.only(right: 8),
+            child: CircleAvatar(child: Icon(Icons.eco)),
           ),
-          const SizedBox(width: 8),
-          if (isUser)
-            const CircleAvatar(
-              backgroundColor: Colors.green,
-              child: Icon(Icons.person, color: Colors.white),
+        Flexible(
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: isUser ? Colors.green[100] : Colors.grey[300],
+              borderRadius: BorderRadius.circular(15),
             ),
-        ],
-      ),
+            child: Text(text, style: const TextStyle(fontSize: 16)),
+          ),
+        ),
+        if (isUser)
+          const Padding(
+            padding: EdgeInsets.only(left: 8),
+            child: CircleAvatar(child: Icon(Icons.person)),
+          ),
+      ],
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:agriinsight_ai/screens/home_screen.dart';
+import 'package:agriinsight_ai/screens/mainnavigationscreen.dart';
 import 'package:agriinsight_ai/screens/signup.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -82,24 +82,18 @@ class _SigninState extends State<Signin> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FadeInUp(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(
-                      "Sign In",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold),
-                    ),
+                  Text(
+                    "Sign In",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                   FadeInUp(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(
-                      "Welcome Back",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
+                   Text(
+                     "Welcome Back",
+                     style: TextStyle(color: Colors.white, fontSize: 18),
+                   ),
                 ],
               ),
             ),
@@ -118,124 +112,112 @@ class _SigninState extends State<Signin> {
                   child: Padding(
                     padding: const EdgeInsets.all(30),
                     child: Column(
-                      children: <Widget>[
+                      children: [
                         const SizedBox(height: 60),
-                        FadeInUp(
-                          duration: const Duration(milliseconds: 1000),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color.fromRGBO(66, 222, 25, .3),
-                                  blurRadius: 20,
-                                  offset: Offset(0, 10),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: Colors.grey.shade200,
-                                      ),
-                                    ),
-                                  ),
-                                  child: TextField(
-                                    controller: emailController,
-                                    decoration: const InputDecoration(
-                                      hintText: "Enter email",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: Colors.grey.shade200,
-                                      ),
-                                    ),
-                                  ),
-                                  child: TextField(
-                                    controller: passwordController,
-                                    obscureText: true,
-                                    decoration: const InputDecoration(
-                                      hintText: "Enter password",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(66, 222, 25, .3),
+                                blurRadius: 20,
+                                offset: Offset(0, 10),
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        FadeInUp(
-                          duration: const Duration(milliseconds: 1000),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Column(
                             children: [
-                              GestureDetector(
-                                onTap: () {
-
-                                },
-                                child: const Text(
-                                  "Forgot Password? ",
-                                  style: TextStyle(color: Colors.grey),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey.shade200,
+                                    ),
+                                  ),
+                                ),
+                                child: TextField(
+                                  controller: emailController,
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter email",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
-                                },
-                                child: const Text(
-                                  "Sign up",
-                                  style: TextStyle(
-                                      color: Color(0xFF2E7D32), fontSize: 16),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey.shade200,
+                                    ),
+                                  ),
+                                ),
+                                child: TextField(
+                                  controller: passwordController,
+                                  obscureText: true,
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter password",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
                         const SizedBox(height: 20),
-                        FadeInUp(
-                          duration: const Duration(milliseconds: 1000),
-                          child: MaterialButton(
-                            onPressed: signin,
-                            height: 50,
-                            color: const Color(0xFF2E7D32),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "Sign In",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+
+                              },
+                              child: const Text(
+                                "Forgot Password? ",
+                                style: TextStyle(color: Colors.grey),
                               ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
+                              },
+                              child: const Text(
+                                "Sign up",
+                                style: TextStyle(
+                                    color: Color(0xFF2E7D32), fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        MaterialButton(
+                          onPressed: signin,
+                          height: 50,
+                          color: const Color(0xFF2E7D32),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              "Sign In",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
                         const SizedBox(height: 20),
-                        FadeInUp(
-                          duration: Duration(milliseconds: 1000),
-                          child: Text(
-                            "Continue with social media",
-                            style: TextStyle(color: Colors.grey),
-                          ),
+                        Text(
+                          "Continue with social media",
+                          style: TextStyle(color: Colors.grey),
                         ),
                         const SizedBox(height: 20),
                         Row(
-                          children: <Widget>[
+                          children: [
                             Expanded(
                               child: FadeInUp(
                                 duration: const Duration(milliseconds: 1000),
@@ -259,22 +241,19 @@ class _SigninState extends State<Signin> {
                             ),
                             const SizedBox(width: 30),
                             Expanded(
-                              child: FadeInUp(
-                                duration: const Duration(milliseconds: 1000),
-                                child: MaterialButton(
-                                  onPressed: () {},
-                                  height: 50,
-                                  color: const Color(0xff55a630),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      "Google",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                              child: MaterialButton(
+                                onPressed: () {},
+                                height: 50,
+                                color: const Color(0xff55a630),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    "Google",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
