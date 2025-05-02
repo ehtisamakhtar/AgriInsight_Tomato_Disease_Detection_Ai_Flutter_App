@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:agriinsight_ai/screens/mainnavigationscreen.dart';
 import 'package:agriinsight_ai/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

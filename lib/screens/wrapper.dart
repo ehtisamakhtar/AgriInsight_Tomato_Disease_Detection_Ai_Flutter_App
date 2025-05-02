@@ -1,5 +1,4 @@
-import 'package:agriinsight_ai/screens/prediction_screen.dart';
-import 'package:agriinsight_ai/screens/verifyemail.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

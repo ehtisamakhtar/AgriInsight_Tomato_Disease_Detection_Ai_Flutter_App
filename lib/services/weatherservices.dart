@@ -31,8 +31,8 @@ class WeatherService {
       return WeatherData(
         temperature: data['main']['temp'].toDouble(),
         description: data['weather'][0]['description'],
-        humidity: data['main']['humidity'], // ✅ add this
-        windSpeed: data['wind']['speed'].toDouble(), // ✅ and this
+        humidity: data['main']['humidity'],
+        windSpeed: data['wind']['speed'].toDouble(),
       );
     } else {
       throw Exception('Failed to load weather data');
