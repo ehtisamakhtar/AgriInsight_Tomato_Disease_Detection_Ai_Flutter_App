@@ -109,7 +109,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         backgroundColor: const Color(0xFF2E7D32),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh, color: Colors.white,),
             onPressed: loadWeather,
           )
         ],

@@ -1,6 +1,5 @@
 
 import 'package:agriinsight_ai/screens/signup.dart';
-import 'package:animate_do/animate_do.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -211,62 +210,14 @@ class _SigninState extends State<Signin> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        Text(
-                          "Continue with social media",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: FadeInUp(
-                                duration: const Duration(milliseconds: 1000),
-                                child: MaterialButton(
-                                  onPressed: () {},
-                                  height: 50,
-                                  color: const Color(0xff428125),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      "Facebook",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 30),
-                            Expanded(
-                              child: MaterialButton(
-                                onPressed: () {},
-                                height: 50,
-                                color: const Color(0xff55a630),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    "Google",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
-                        const SizedBox(height: 40),
-                      ],
+
                     ),
                   ),
                 ),
               ),
-            ),
+
           ],
         ),
       ),

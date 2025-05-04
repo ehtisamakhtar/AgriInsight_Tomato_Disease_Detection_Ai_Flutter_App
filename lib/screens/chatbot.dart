@@ -105,7 +105,7 @@ User: $message
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Crop Care Assistant', style: TextStyle(color: Colors.white)),
+        title: const Text('Crop Care Assistant', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF2E7D32),
         centerTitle: true,
       ),

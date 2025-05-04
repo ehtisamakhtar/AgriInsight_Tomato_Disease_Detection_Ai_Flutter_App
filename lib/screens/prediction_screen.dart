@@ -99,7 +99,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
 
   Future<void> tfLiteSetup() async {
     await Tflite.loadModel(
-      model: "assets/disease_model.tflite",
+      model: "assets/trained_model.tflite",
       labels: "assets/labels.txt",
       numThreads: 1,
       isAsset: true,
@@ -120,7 +120,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
       imageMean: 0.0,
       imageStd: 255.0,
       numResults: 2,
-      threshold: 0.4,
+      threshold: 0.5,
       asynch: true,
     );
 
